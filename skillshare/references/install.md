@@ -72,11 +72,13 @@ skillshare install user/repo --skip-audit             # Skip security scan
 | `--yes, -y` | Auto-accept all prompts (CI/CD friendly) |
 | `--exclude <name>` | Skip specific skills during multi-skill install (repeatable) |
 | `--skip-audit` | Skip security audit for this install |
+| `--audit-threshold <t>` / `--threshold <t>` / `-T <t>` | Override block threshold for this run (`critical\|high\|medium\|low\|info`; shorthand: `c\|h\|m\|l\|i`, plus `crit`, `med`) |
 | `--dry-run, -n` | Preview |
 
 **Fuzzy subdirectory resolution:** When a monorepo has nested skill directories, you can specify just the skill name — e.g., `user/repo/vue-best-practices` finds `skills/vue-best-practices/` automatically. Fails with an error if multiple matches exist.
 
 **Tracked repos:** Prefixed with `_`, nested with `__` (e.g., `_team__frontend__ui`).
+Tracked custom names must not contain path separators (`/`, `\`) or `..`.
 
 **No-arg install:** `skillshare install` (global) or `skillshare install -p` (project) installs all remote skills listed in `config.yaml`. Useful for new machines, new team members, or reproducing a skill setup from a shared config.
 
@@ -86,7 +88,9 @@ skillshare install user/repo --skip-audit             # Skip security scan
 
 **License display:** If a SKILL.md has a `license` frontmatter field, it's shown in selection prompts (e.g., `my-skill (MIT)`) and in the single-skill confirmation box.
 
-**Security audit:** Install auto-scans skills after download. CRITICAL findings block install — use `--force` to override, `--skip-audit` to skip entirely. HIGH/MEDIUM shown as warnings.
+**Security audit:** Install auto-scans skills after download. Blocking follows the active threshold (default `CRITICAL`), while aggregate risk is reported separately for context. Use `--force` to override blocking, `--skip-audit` to skip scanning, or `--audit-threshold` / `--threshold` / `-T` to override threshold per command.
+
+**Private repos (HTTPS):** `install` and `update` auto-detect `GITHUB_TOKEN`, `GITLAB_TOKEN`, `BITBUCKET_TOKEN`, or `SKILLSHARE_GIT_TOKEN` for HTTPS clone/pull. No manual git config needed. SSH works as usual.
 
 **After install:** `skillshare sync`
 
@@ -115,9 +119,12 @@ Update installed skills or tracked repositories.
 ```bash
 # Global
 skillshare update my-skill       # Update from stored source
+skillshare update a b c          # Update multiple at once
 skillshare update _team-skills   # Git pull tracked repo
+skillshare update --group front  # Update all in a group
 skillshare update --all          # All tracked repos + skills
 skillshare update --all -n       # Preview updates
+skillshare update --all --diff   # Show file-level change summary
 
 # Project
 skillshare update my-skill -p       # Update project skill
@@ -126,7 +133,20 @@ skillshare update --all -p          # All project remote/tracked skills
 skillshare update _repo --force -p  # Discard local changes
 ```
 
+### Flags
+
+| Flag | Description |
+|------|-------------|
+| `--all, -a` | Update all tracked repos and skills with metadata |
+| `--group, -G <name>` | Update all updatable skills in a group (repeatable) |
+| `--force, -f` | Discard local changes and force update |
+| `--dry-run, -n` | Preview without making changes |
+| `--skip-audit` | Skip post-update security audit gate |
+| `--diff` | Show file-level change summary after update |
+
 **Safety:** Tracked repos with uncommitted changes are skipped. Use `--force` to override.
+
+**Security:** Post-update audit gate rolls back tracked repos on HIGH/CRITICAL findings. Risk label and score displayed after updates. Use `--skip-audit` to bypass.
 
 **After update:** `skillshare sync`
 

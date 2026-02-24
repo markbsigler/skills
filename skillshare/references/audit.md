@@ -1,13 +1,16 @@
 # Security Audit
 
-Scan skills for prompt injection, data exfiltration, credential access, destructive commands, obfuscation, and suspicious URLs.
+Scan skills for prompt injection, data exfiltration, credential access, destructive commands, obfuscation, suspicious URLs, and broken local links.
 
 ## Usage
 
 ```bash
 skillshare audit                   # Scan all skills
 skillshare audit <name>            # Scan specific skill
+skillshare audit a b c             # Scan multiple skills
+skillshare audit --group frontend  # Scan all skills in a group
 skillshare audit <path>            # Scan file or directory path
+skillshare audit -T h              # Block on HIGH+ findings
 skillshare audit -p                # Scan project skills
 ```
 
@@ -15,9 +18,10 @@ skillshare audit -p                # Scan project skills
 
 | Flag | Description |
 |------|-------------|
+| `-G, --group <name>` | Scan all skills in a group (repeatable) |
 | `-p, --project` | Scan project-level skills |
 | `-g, --global` | Scan global skills |
-| `--threshold <t>` | Block threshold override: `critical\|high\|medium\|low\|info` |
+| `--threshold <t>`, `-T <t>` | Block threshold override: `critical\|high\|medium\|low\|info` (shorthand: `c\|h\|m\|l\|i`, plus `crit`, `med`) |
 | `--json` | Machine-readable JSON output with risk scores |
 | `--init-rules` | Create a starter `audit-rules.yaml` |
 | `-h, --help` | Show help |
@@ -39,11 +43,14 @@ The default threshold is `CRITICAL` — only CRITICAL findings block `install`. 
 ```bash
 # Per-command override
 skillshare audit --threshold high          # Block on HIGH+ findings
+skillshare audit -T h                      # Same as --threshold high
 
 # Global config (config.yaml)
 audit:
   block_threshold: HIGH                    # Block on HIGH+ for all installs
 ```
+
+**Block vs aggregate risk:** blocking is based on finding severity vs threshold; aggregate risk score/label is reported separately for triage and does not by itself block installs.
 
 ## Install Integration
 
@@ -66,8 +73,8 @@ Per-skill results with risk scoring:
 
 ```
 [1/5] ✓ my-skill 0.1s
-[2/5] ! risky-skill 0.1s  (MODERATE 35/100)
-[3/5] ✗ bad-skill 0.1s  (SEVERE 85/100)
+[2/5] ! risky-skill 0.1s  (HIGH 35/100)
+[3/5] ✗ bad-skill 0.1s  (CRITICAL 85/100)
 ```
 
 Single-skill scan shows detailed findings:
@@ -75,7 +82,7 @@ Single-skill scan shows detailed findings:
 ```
   MEDIUM: URL used in command context (scripts/run.sh:14)
   HIGH: base64 decode pipe may hide malicious content (SKILL.md:42)
-  Risk: MODERATE (35/100)
+  Aggregate risk: HIGH (35/100)
 ```
 
 Summary box:
@@ -88,7 +95,8 @@ Summary box:
 │  Warning:   1                   │
 │  Failed:    1                   │
 │  Severity:  c/h/m/l/i = 1/1/1/0/0 │
-│  Risk:      SEVERE (85/100)     │
+│  Max sev:   CRITICAL            │
+│  Aggregate: CRITICAL (85/100)   │
 └─────────────────────────────────┘
 ```
 
@@ -109,9 +117,11 @@ Summary box:
 | `env-access` | MEDIUM | Environment variable references | Excludes NODE_ENV, npm_* |
 | `escape-obfuscation` | MEDIUM | 3+ consecutive hex/unicode escapes | — |
 | `suspicious-fetch` | MEDIUM | URLs used in command context | — |
-| `insecure-http` | MEDIUM | HTTP URLs (non-HTTPS) | — |
 | `system-writes` | MEDIUM | Writes to /etc, /usr, system paths | — |
-| `shell-chain` | MEDIUM | Long shell pipe chains | — |
+| `insecure-http` | LOW | HTTP URLs (non-HTTPS) | — |
+| `external-link` | LOW | External URLs in markdown links | Excludes localhost/127.0.0.1/0.0.0.0 |
+| `dangling-link` | LOW | Broken local markdown links | Skips external/anchor links |
+| `shell-chain` | INFO | Long shell pipe chains | — |
 
 ## Custom Audit Rules
 
@@ -145,6 +155,10 @@ rules:
 
   # Disable a built-in rule
   - id: system-writes-0
+    enabled: false
+
+  # Disable the dangling-link structural check
+  - id: dangling-link
     enabled: false
 
   # Override severity of a built-in rule
