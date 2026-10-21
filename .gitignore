@@ -1,1 +1,11 @@
 .DS_Store
+
+# Python virtual environments and tooling caches
+.venv/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
