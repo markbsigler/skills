@@ -1,20 +1,23 @@
-"""Shared fixtures for the Java dependency analyzer tests."""
+"""Shared fixtures for the skill script tests."""
 
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 from types import ModuleType
 from typing import Any
 
 import pytest
 
-SCRIPT = (
-    Path(__file__).resolve().parent.parent
-    / "java-version-upgrade"
-    / "scripts"
-    / "analyze_java_dependencies.py"
-)
+ROOT = Path(__file__).resolve().parent.parent
+
+SCRIPT = ROOT / "java-version-upgrade" / "scripts" / "analyze_java_dependencies.py"
+
+# The aha-feature scripts import each other as top-level modules, as they do when run directly.
+AHA_FEATURE_SCRIPTS = ROOT / "aha-feature" / "scripts"
+if str(AHA_FEATURE_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(AHA_FEATURE_SCRIPTS))
 
 
 def load_analyzer() -> ModuleType:
