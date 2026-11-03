@@ -1,0 +1,23 @@
+README.md
+  s_446f9b3d4bdfe9::t_26e5d3c9f68646 28-31
+aha-feature/evals/train_queries.json
+  s_446f9b3d4bdfe9::t_81c57dae83e151 2-14
+aha-feature/evals/validation_queries.json
+  s_446f9b3d4bdfe9::t_33e0175fa9373b 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ded39789a35b2eef17de7e74a12416f7eff16228",
+  "prompts": {},
+  "sessions": {
+    "s_446f9b3d4bdfe9": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "47b05882-7fd1-4773-a315-4d4f1c641c01",
+        "model": "unknown"
+      },
+      "human_author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
