@@ -1,0 +1,23 @@
+aha-feature/scripts/aha_feature.py
+  s_446f9b3d4bdfe9::t_6dfb0a18421bca 2560-2564
+aha-feature/evals/trigger-queries.json
+  s_446f9b3d4bdfe9::t_2762dcda8023f0 1-23
+aha-feature/SKILL.md
+  s_446f9b3d4bdfe9::t_6e99fcc7aec27e 3-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4f774bdf137a646951823fcdfd5437f0cf04cfff",
+  "prompts": {},
+  "sessions": {
+    "s_446f9b3d4bdfe9": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "47b05882-7fd1-4773-a315-4d4f1c641c01",
+        "model": "unknown"
+      },
+      "human_author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
