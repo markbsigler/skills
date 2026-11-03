@@ -39,6 +39,9 @@ Repository-level linting, type checking, and tests use [uv](https://docs.astral.
 
 ```bash
 uv sync --locked
-make check
+make check            # ruff, mypy (strict), pytest
+make validate-skills  # validate every skill with the agentskills.io reference validator (needs network)
 ```
+
+CI runs both, plus shellcheck on the bundled shell scripts. Each skill must keep `name` equal to its directory name and pass `skills-ref validate`.
 

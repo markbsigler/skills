@@ -38,3 +38,16 @@ jobs:
 
       - name: Test
         run: uv run pytest
+
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+
+      - name: Validate skills against the Agent Skills spec
+        run: make validate-skills
+
+      - name: Check shell scripts
+        run: shellcheck codebase-diagrams/scripts/*.sh
