@@ -50,4 +50,4 @@ jobs:
         run: make validate-skills
 
       - name: Check shell scripts
-        run: shellcheck codebase-diagrams/scripts/*.sh
+        run: make shellcheck

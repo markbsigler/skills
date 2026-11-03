@@ -38,10 +38,13 @@ uv run aha-feature/scripts/aha_feature.py lint draft.md --gate elaborated
 Repository-level linting, type checking, and tests use [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv sync --locked
+make install          # uv sync --locked
 make check            # ruff, mypy (strict), pytest
+make shellcheck       # lint the bundled shell scripts
 make validate-skills  # validate every skill with the agentskills.io reference validator (needs network)
+make ci               # all of the above, as CI runs them
+make                  # list every target
 ```
 
-CI runs both, plus shellcheck on the bundled shell scripts. Each skill must keep `name` equal to its directory name and pass `skills-ref validate`.
+Each skill must keep `name` equal to its directory name and pass `skills-ref validate`.
 
