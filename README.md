@@ -15,6 +15,16 @@ Summary: a curated set of reusable skill docs, references, and scripts for build
 | [codebase-diagrams](codebase-diagrams/SKILL.md) | Generates Mermaid architecture diagrams for a codebase |
 | [java-version-upgrade](java-version-upgrade/SKILL.md) | Upgrades Java projects across versions, with dependency analysis |
 
+## Install
+
+Install a skill with [GitHub CLI](https://cli.github.com/) 2.90 or later:
+
+```bash
+gh skill install markbsigler/skills aha-feature --agent github-copilot --scope user   # or --agent cursor
+```
+
+[INSTALL.md](INSTALL.md) gives step-by-step instructions for GitHub Copilot (VS Code and Copilot CLI) and Cursor, including other install methods and connecting aha-feature to the Aha! MCP server.
+
 ## Development
 
 Python helper scripts carry [PEP 723](https://peps.python.org/pep-0723/) metadata, so a script can run in an isolated environment without installing anything globally:
