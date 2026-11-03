@@ -1,0 +1,30 @@
+Makefile
+  s_446f9b3d4bdfe9::t_c5031d74887c44 3-4,6
+  s_446f9b3d4bdfe9::t_8efbcc6e18a314 28-32
+codebase-diagrams/scripts/render_diagrams.sh
+  s_446f9b3d4bdfe9::t_2ca13529fd27ba 74
+  s_446f9b3d4bdfe9::t_91413c37cdd079 2,5-32,39-45,49-50,53-57,60,65,68-70,73,80
+README.md
+  s_446f9b3d4bdfe9::t_2e819a668397c3 42-43,46
+  s_446f9b3d4bdfe9::t_0702381f1c0da3 47
+codebase-diagrams/SKILL.md
+  s_446f9b3d4bdfe9::t_8d9c45cabf5775 3-8,64,70,99
+.github/workflows/ci.yml
+  s_446f9b3d4bdfe9::t_0dd631af14afa3 41-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "99950897e0b08e96e40e404cf6bbec84044ae28d",
+  "prompts": {},
+  "sessions": {
+    "s_446f9b3d4bdfe9": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "47b05882-7fd1-4773-a315-4d4f1c641c01",
+        "model": "unknown"
+      },
+      "human_author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
