@@ -2557,7 +2557,11 @@ def command_lint(args: argparse.Namespace) -> int:
             print(f"{rule:<9}{description}")
         return 0
     if not args.source:
-        print("error: lint needs a source file", file=sys.stderr)
+        print(
+            "error: lint needs a source file (usage: aha_feature.py lint [--gate GATE] SOURCE; "
+            "use - for stdin, --list-rules to list rules)",
+            file=sys.stderr,
+        )
         return 2
     bundle = load_bundle(args.source, args.record)
     profile = args.profile or bundle.meta.get("profile") or "agent"

@@ -1,6 +1,11 @@
 ---
 name: aha-feature
-description: Elicit, elaborate, review, and maintain Aha! features, epics, and requirements as specification-driven (SDD) records through the Aha! MCP server. Enforces elicit-before-writing - scores every request against five dimensions (value and persona, scope, tech and data, edge cases, success metrics) and asks 2-3 targeted questions per round before drafting - then writes EARS requirements with use case to acceptance criteria traceability, tracks open questions as To-Dos, binds approvals to a content fingerprint, writes and verifies Aha! Editor HTML, aligns sibling features, and on request exports Spec Kit, OpenSpec, or Kiro specs into a git repository. Use when the user wants to create, draft, refine, elaborate, review, lint, align, approve, or export an Aha! feature, epic, or requirement.
+description: Use this skill whenever the user wants to create, draft, write a spec for, refine, elaborate, review, lint, align, approve, or export an Aha! feature, epic, or requirement - even if they just say "turn this idea into requirements" or paste an Aha! reference like APP-123. It elicits before writing (asks 2-3 targeted questions per round until value, scope, tech and data, edge cases, and success metrics are clear), then writes EARS requirements with acceptance criteria and traceability through the Aha! MCP server, and on request exports Spec Kit, OpenSpec, or Kiro specs to a git repository.
+license: MIT
+compatibility: Requires the Aha! MCP server. Scripts need Python 3.11+ (standard library only; run with uv or python3). Export needs git.
+metadata:
+  author: markbsigler
+  version: "1.0"
 ---
 
 # Aha! Feature Specifications
