@@ -25,7 +25,7 @@ gh skill install markbsigler/skills aha-feature --agent github-copilot --scope u
 
 ## Evals
 
-`aha-feature/evals/` holds labeled prompts for testing whether the skill's `description` triggers on the right requests, following the [agentskills.io description-optimization guide](https://agentskills.io/skill-creation/optimizing-descriptions). `train_queries.json` is for iterating on the description and `validation_queries.json` is held back to check that changes generalize. Each entry is `{"query": ..., "should_trigger": true|false}`. The files are for skill authors and are not loaded by the agent.
+Each skill's `evals/` folder holds labeled prompts for testing whether its `description` triggers on the right requests, following the [agentskills.io description-optimization guide](https://agentskills.io/skill-creation/optimizing-descriptions). Each entry is `{"query": ..., "should_trigger": true|false}`. `train_queries.json` is for iterating on the description and `validation_queries.json` is held back to check that changes generalize. The files are for skill authors and are not loaded by the agent.
 
 ## Development
 

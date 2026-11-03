@@ -95,7 +95,7 @@ classDef source fill:#96CEB4,stroke:#27AE60,color:#333,stroke-width:2px
 classDef precomp fill:#BB8FCE,stroke:#8E44AD,color:#fff,stroke-width:2px
 classDef compile fill:#F7DC6F,stroke:#F39C12,color:#333,stroke-width:2px
 classDef link fill:#FF6B6B,stroke:#C0392B,color:#fff,stroke-width:2px
-classDef bind fill:#45B7D1,stroke:#2980B9,color:#fff,stroke-width:2px
+classDef package fill:#45B7D1,stroke:#2980B9,color:#fff,stroke-width:2px
 classDef output fill:#E8E8E8,stroke:#7F8C8D,color:#333,stroke-width:2px
 ```
 

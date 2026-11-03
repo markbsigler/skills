@@ -12,9 +12,9 @@ Always include an init block at the top for consistent rendering:
 
 ## Diagram Type
 
-- Use `flowchart TD` or `flowchart LR` — **never** `graph TD` or `graph LR`
+- Use `flowchart TD` or `flowchart LR` rather than the legacy `graph TD` / `graph LR` alias, so every diagram uses the same keyword and current syntax
 - Use `sequenceDiagram` for interaction/timing diagrams
-- `flowchart` supports `classDef` and `class` assignments; `graph` has inconsistent support
+- `flowchart` supports `classDef` and `class` assignments
 
 ## Reserved Words
 
@@ -46,6 +46,8 @@ These Mermaid keywords **cannot** be used as node IDs. They cause silent parse f
 - Use `<br/>` for line breaks
 - Wrap multi-line labels in `["..."]` (quotes inside brackets)
 - Do **not** use Markdown syntax (`**bold**`, `*italic*`) inside node labels
+- Always wrap labels in `["..."]` when they contain parentheses, braces, colons, semicolons, `#`, or quotes. An unquoted `A[Foo (bar)]` fails to parse; `A["Foo (bar)"]` works
+- File paths and generics (`List<String>`) in labels: quote the label, and write `&lt;` / `&gt;` in place of angle brackets that aren't `<b>`, `<i>`, or `<br/>`
 
 ## Edge Syntax
 
@@ -56,6 +58,8 @@ These Mermaid keywords **cannot** be used as node IDs. They cause silent parse f
 | `A ==> B` | Thick arrow | Critical runtime path |
 | `A <--> B` | Bidirectional | Two-way communication |
 | `A -->\|"label"\| B` | Labeled edge | Describe the relationship |
+
+Put a space before an edge's target when its ID starts with `o` or `x`: `A --- oB` is fine, but `A---oB` parses as a circle-ended edge to `B`, not an edge to a node named `oB`.
 
 ## Subgraph Rules
 

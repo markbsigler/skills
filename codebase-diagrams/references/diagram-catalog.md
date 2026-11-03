@@ -55,13 +55,13 @@ Show the architectural stack layer by layer:
 
 **File**: `{project}_dependencies_overview.mmd`
 **Type**: `flowchart TD`
-**Always include**: Yes
+**Include for**: Medium+ codebases
 
 High-level statistics and summary:
 
-- Project stats: file count, LOC, language constructs, tech stack
-- Program breakdown by category (e.g., online vs batch, frontend vs backend)
-- Include/import categories with counts
+- Project stats: file count, LOC, languages, tech stack
+- Component breakdown by category (e.g., frontend vs backend, services vs jobs)
+- Import/dependency categories with counts
 - Dependency fan-out summary (which modules are most depended upon)
 - Use a clean layout with labeled boxes — no complex connections needed
 
@@ -148,8 +148,8 @@ Build pipeline visualization:
 - Source libraries / input
 - Build phases (preprocess → compile → link → package → deploy)
 - Parallel tracks for different output types
-- Deployment targets (load libraries, container registries, CDNs)
-- Color-code: source (green), compile steps (yellow), link steps (red), bind/package (blue), output (gray)
+- Deployment targets (container registries, CDNs, servers, artifact repositories)
+- Color-code: source (green), compile steps (yellow), link steps (red), package (blue), output (gray)
 
 ## 10. Batch Processing
 
@@ -204,8 +204,8 @@ Security architecture:
 Hierarchical tree view:
 
 - Root node = project name with stats
-- Level 1: Major categories (Foundation, Executables, Build)
-- Level 2: Subcategories (Online, Batch, Data Structures, System Definitions)
+- Level 1: Major categories (e.g., Foundation, Applications, Build)
+- Level 2: Subcategories (e.g., Services, Jobs, Shared Types, Config)
 - Level 3: Individual programs/modules with metadata (include count, runtime deps)
 - Level 4 (leaves): Runtime requirements per program
 - Use 4 classDefs: root, level1, level2, level3/leaf
@@ -222,6 +222,6 @@ Runtime sequence diagram:
 - Show primary user flow (request → dispatch → process → respond)
 - Show alternative flows with `alt`/`else` blocks
 - Highlight async operations with `rect` shading
-- Include data formats on arrows (COMMAREA, JSON, protobuf, etc.)
+- Include data formats on arrows (JSON, protobuf, SQL, message payloads, etc.)
 - Use `autonumber` for step tracking
 - Use `Note over` for contextual annotations

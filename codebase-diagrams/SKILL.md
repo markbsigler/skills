@@ -14,86 +14,84 @@ Analyze any codebase and generate a suite of Mermaid architecture diagrams at mu
 
 ## Workflow
 
-Execute these 5 steps in order:
-
 ### Step 1: Analyze
 
-Explore the codebase to build a mental model:
+Build a mental model from the highest-signal files first, not by reading everything:
 
-- **Structure**: Root directories, modules, packages, configuration files
-- **Dependencies**: Internal imports/includes between modules
-- **Patterns**: Layered, microservice, monolith, event-driven, pipeline, etc.
-- **Systems**: Core functional areas (UI, API, backend, data, auth, build, etc.)
-- **Stack**: Languages, frameworks, runtimes, external services
-- **Build/deploy**: Compilation steps, CI/CD, deployment targets
+- **Manifests and config**: `package.json`, `pom.xml`, `pyproject.toml`, `go.mod`, `Dockerfile`, CI and deploy files
+- **Entry points and top-level directories**: what runs, and how the code is divided
+- **Components**: follow imports, calls, queries, and config references outward from the entry points
+- **Stack and external systems**: languages, frameworks, databases, queues, third-party APIs
+- **Patterns**: layered, microservice, monolith, event-driven, pipeline, and so on
 
-Produce a structured analysis report covering every source file. Include: what each file does, what it imports, what it exports, what external systems it touches.
+For a large codebase, work one subsystem at a time and sample rather than read every file. Keep notes in the conversation; don't write a separate analysis document unless asked. If `docs/diagrams/` or other diagram files already exist, update them instead of creating duplicates.
+
+**Draw only what you verified.** Every node must be a real module, service, or store you saw in the code, and every edge a real import, call, query, or config reference (confirm with a search). Leave out anything you can't confirm, or say it is inferred in the README.
 
 ### Step 2: Plan
 
-Determine scope based on codebase size:
+Pick the diagrams from [references/diagram-catalog.md](references/diagram-catalog.md) by codebase size, then add any system-specific ones the analysis supports (data flow, backend services, build and deployment, frontend, auth):
 
-| Codebase Size | Files | Diagram Count |
+| Size | Files | Diagrams |
 | --- | --- | --- |
-| Small | <20 | 4–6 (core + layers + deps_key + data_flow) |
-| Medium | 20–100 | 8–10 (add deps_full, backend, build, interactions) |
-| Large | >100 | 12+ (full catalog, split by subsystem) |
+| Small | <20 | 3–5: `core_architecture`, `architecture_layers`, `dependencies_key`, plus data flow or build if relevant |
+| Medium | 20–100 | 7–10: add `dependencies_overview`, `dependencies_full`, `dependencies_by_category`, and the matching system diagrams |
+| Large | >100 | 12+: the full catalog, split by subsystem |
 
-Select diagrams from the catalog in [references/diagram-catalog.md](references/diagram-catalog.md). Use the `{project}_` naming prefix derived from the repo or directory name.
-
-Default output directory: `docs/diagrams/`
+Defaults, unless the user says otherwise: output to `docs/diagrams/`, files named `{project}_<diagram>.mmd` with the project name taken from the repo or directory, and the default color theme. Ask the user only when the scope is genuinely ambiguous, such as which subsystem of a large repo to cover.
 
 ### Step 3: Generate
 
-Create `.mmd` files following these rules:
+Write the `.mmd` files, starting from [assets/example_core_architecture.mmd](assets/example_core_architecture.mmd) as a structural model:
 
-- Use `flowchart TD`, `flowchart LR`, or `sequenceDiagram` — never `graph`
-- Define `classDef` styles using the color palette from [references/color-themes.md](references/color-themes.md)
-- Apply class assignments to all nodes for consistent coloring
-- Use subgraphs to group related components
-- Use `-->` for strong dependencies, `-.->` for weak/optional
-- Use `==>` for critical/runtime paths
-- Use `<b>` tags in node labels for primary names
-- Use `<i>` tags for secondary descriptions
-- Keep each diagram focused — split rather than overload
+- Use `flowchart TD`, `flowchart LR`, or `sequenceDiagram` (not the legacy `graph` keyword)
+- Define `classDef` styles from [references/color-themes.md](references/color-themes.md) and assign a class to every node
+- Group related components in subgraphs
+- Use `-->` for strong dependencies, `-.->` for weak or optional ones, and `==>` for critical runtime paths
+- Use `<b>` for primary names and `<i>` for secondary detail in labels
+- Keep each diagram focused; split rather than overload
 
-**Mermaid pitfalls** — consult [references/mermaid-standards.md](references/mermaid-standards.md) for reserved word conflicts, node ID rules, and syntax gotchas.
+### Step 4: Validate and render
 
-### Step 4: Render
-
-Run `scripts/render_diagrams.sh` to generate PNGs (see `--help` for options and exit codes):
+Check that every diagram parses before rendering PNGs. Run these from the skill directory, or with the full path to the script:
 
 ```bash
-bash scripts/render_diagrams.sh [diagram_directory]
+bash scripts/render_diagrams.sh --check docs/diagrams   # parse check, writes nothing
+bash scripts/render_diagrams.sh docs/diagrams           # render PNGs next to the .mmd files
 ```
 
-It renders every `.mmd` file in the directory to `.png` at 2x scale on a white background. It uses `mmdc` if installed and otherwise runs a pinned Mermaid CLI through `npx`, without a global install. A non-zero exit means a diagram failed to render; the script prints the Mermaid error for each failure, so fix the diagram syntax (see [references/mermaid-standards.md](references/mermaid-standards.md)) and rerun.
+Run `--help` for options and exit codes. If a diagram fails, the script prints the Mermaid parse error. Fix that diagram (see [references/mermaid-standards.md](references/mermaid-standards.md)) and rerun until `--check` exits 0, then render. The script uses `mmdc` if installed, otherwise a pinned Mermaid CLI through `npx`, with no global install.
 
 ### Step 5: Document
 
-Create a `README.md` in the diagrams directory containing:
-
-1. **Diagram inventory table** — file, type, one-line purpose
-2. **Recommended viewing orders** by audience (new team members, developers, ops)
-3. **Color coding legend** — table mapping colors to semantic meaning
-4. **Key architectural insights** — patterns discovered, hotspots, communication protocols
-5. **Rendering instructions** — mmdc CLI, VS Code extension, GitHub native rendering
+Write `README.md` in the diagrams directory from [assets/diagrams-readme-template.md](assets/diagrams-readme-template.md): inventory table, where to start by audience, color legend, key findings, what is not covered, and rendering instructions.
 
 ## Diagram Catalog Quick Reference
 
 | Category | Diagrams | When to Include |
 | --- | --- | --- |
 | Architecture | `core_architecture`, `architecture_layers` | Always |
-| Dependencies | `dependencies_overview`, `dependencies_key`, `dependencies_full`, `dependencies_by_category` | Always include overview+key; full+category for medium+ |
-| System | `data_flow`, `backend_services`, `build_deployment`, `batch_processing`, `frontend_architecture`, `auth_security` | Include those matching detected systems |
-| Hierarchy | `dependency_tree` | Medium+ codebases |
+| Dependencies | `dependencies_key` | Always |
+| Dependencies | `dependencies_overview`, `dependencies_full`, `dependencies_by_category` | Medium+ |
+| System | `data_flow`, `backend_services`, `build_deployment`, `batch_processing`, `frontend_architecture`, `auth_security` | Those matching systems you found |
+| Hierarchy | `dependency_tree` | Medium+ |
 | Runtime | `component_interactions` (sequence diagram) | When inter-component communication is significant |
 
 Full specifications for each diagram type: [references/diagram-catalog.md](references/diagram-catalog.md)
 
+## Gotchas
+
+- **Plausible but invented structure** is the most common failure. A diagram that looks right but shows a dependency that doesn't exist is worse than a smaller correct one. Verify edges against the code.
+- **Too dense to read.** Keep `dependencies_key` to about 15 nodes and every other diagram under about 80. Beyond that, split by subsystem.
+- **Reserved words as node IDs** (`end`, `call`, `class`, `style`, `default`) break parsing, sometimes silently. Use `end_node`, `call_module`, and so on.
+- **A parse error and a browser error look different.** A parse error names a line in the `.mmd` file. A Chromium or sandbox error on every diagram, including the known-good example, is an environment problem; set `RENDER_PUPPETEER_CONFIG` (see `--help`).
+- **Don't overwrite existing diagrams** without saying so. If files with the same names exist, update them in place and note what changed.
+
 ## Resources
 
-- [references/diagram-catalog.md](references/diagram-catalog.md) — Detailed specs for every diagram type
-- [references/mermaid-standards.md](references/mermaid-standards.md) — Syntax rules, reserved words, common pitfalls
-- [references/color-themes.md](references/color-themes.md) — Default palette + alternative themes
-- [scripts/render_diagrams.sh](scripts/render_diagrams.sh) — Batch render .mmd → .png (uses mmdc or a pinned `npx` fallback)
+- [references/diagram-catalog.md](references/diagram-catalog.md): detailed spec for every diagram type. Read it when choosing and writing diagrams in Steps 2 and 3.
+- [references/mermaid-standards.md](references/mermaid-standards.md): syntax rules, reserved words, rendering problems. Read it when a diagram fails to parse or render.
+- [references/color-themes.md](references/color-themes.md): default palette and alternative themes, with copy-paste `classDef` blocks.
+- [assets/example_core_architecture.mmd](assets/example_core_architecture.mmd): a valid worked example to copy the structure from.
+- [assets/diagrams-readme-template.md](assets/diagrams-readme-template.md): template for the diagrams `README.md`.
+- [scripts/render_diagrams.sh](scripts/render_diagrams.sh): checks and renders `.mmd` to `.png`.
