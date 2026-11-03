@@ -25,6 +25,10 @@ gh skill install markbsigler/skills aha-feature --agent github-copilot --scope u
 
 [INSTALL.md](INSTALL.md) gives step-by-step instructions for GitHub Copilot (VS Code and Copilot CLI) and Cursor, including other install methods and connecting aha-feature to the Aha! MCP server.
 
+## Evals
+
+`aha-feature/evals/` holds labeled prompts for testing whether the skill's `description` triggers on the right requests, following the [agentskills.io description-optimization guide](https://agentskills.io/skill-creation/optimizing-descriptions). `train_queries.json` is for iterating on the description and `validation_queries.json` is held back to check that changes generalize. Each entry is `{"query": ..., "should_trigger": true|false}`. The files are for skill authors and are not loaded by the agent.
+
 ## Development
 
 Python helper scripts carry [PEP 723](https://peps.python.org/pep-0723/) metadata, so a script can run in an isolated environment without installing anything globally:
