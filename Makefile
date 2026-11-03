@@ -1,5 +1,5 @@
 UV ?= uv
-PY_PATHS := java-version-upgrade/scripts aha-feature/scripts tests
+PY_PATHS := aha-feature/scripts tests
 
 .PHONY: install fmt lint format-check typecheck test check
 

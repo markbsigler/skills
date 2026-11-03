@@ -26,7 +26,7 @@ package = false
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-src = ["java-version-upgrade/scripts", "aha-feature/scripts", "tests"]
+src = ["aha-feature/scripts", "tests"]
 
 [tool.ruff.lint]
 select = [
@@ -68,7 +68,7 @@ warn_unused_ignores = true
 warn_unreachable = true
 show_error_codes = true
 pretty = true
-files = ["java-version-upgrade/scripts", "aha-feature/scripts", "tests"]
+files = ["aha-feature/scripts", "tests"]
 
 # ── pytest ────────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]
@@ -81,7 +81,6 @@ addopts = [
   "-ra",
   "--strict-markers",
   "--strict-config",
-  "--cov=java-version-upgrade/scripts",
   "--cov=aha-feature/scripts",
   "--cov-report=term-missing:skip-covered",
   "--cov-report=html",
@@ -91,7 +90,7 @@ filterwarnings = ["error"]
 
 # ── coverage ──────────────────────────────────────────────────────────────────
 [tool.coverage.run]
-source = ["java-version-upgrade/scripts", "aha-feature/scripts"]
+source = ["aha-feature/scripts"]
 branch = true
 relative_files = true
 
