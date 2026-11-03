@@ -1,0 +1,21 @@
+Makefile
+  s_446f9b3d4bdfe9::t_e3a0cbe060632d 7,41
+README.md
+  s_446f9b3d4bdfe9::t_08a88e07906072 45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "80bd64f0c3e0aacb60869a39bbd1c5131b73be69",
+  "prompts": {},
+  "sessions": {
+    "s_446f9b3d4bdfe9": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "47b05882-7fd1-4773-a315-4d4f1c641c01",
+        "model": "claude-sonnet-5.5"
+      },
+      "human_author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
