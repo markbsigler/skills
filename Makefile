@@ -4,7 +4,7 @@ PY_PATHS := aha-feature/scripts tests
 SKILLS_REF := git+https://github.com/agentskills/agentskills.git@69ef37e9424c0a7ea9dd2293b559e43ec8176379\#subdirectory=skills-ref
 
 .DEFAULT_GOAL := help
-.PHONY: help install fmt lint format-check typecheck test check shellcheck validate-skills ci clean
+.PHONY: help install fmt lint format-check typecheck test check shellcheck validate-skills verify clean
 
 help: ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-16s %s\n", $$1, $$2}'
@@ -38,7 +38,7 @@ validate-skills: ## Validate every skill against the Agent Skills spec (needs ne
 		$(UV)x --from "$(SKILLS_REF)" skills-ref validate "$$(dirname "$$d")" || exit 1; \
 	done
 
-ci: check shellcheck validate-skills ## Run everything CI runs (needs network)
+verify: check shellcheck validate-skills ## Run every check (needs network)
 
 clean: ## Remove coverage output and tool caches
 	rm -rf htmlcov coverage.xml .coverage .mypy_cache .pytest_cache .ruff_cache

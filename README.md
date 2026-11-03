@@ -42,7 +42,7 @@ make install          # uv sync --locked
 make check            # ruff, mypy (strict), pytest
 make shellcheck       # lint the bundled shell scripts
 make validate-skills  # validate every skill with the agentskills.io reference validator (needs network)
-make ci               # all of the above, as CI runs them
+make verify           # all of the above
 make                  # list every target
 ```
 
