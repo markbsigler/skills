@@ -1,0 +1,23 @@
+pyproject.toml
+  s_446f9b3d4bdfe9::t_fdc7af6d158394 29,71,93
+.github/workflows/ci.yml
+  s_446f9b3d4bdfe9::t_8f132256462f8a 31,34
+Makefile
+  s_446f9b3d4bdfe9::t_3ca143e51ede5e 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "07439e843ef2feefc3f0cba1578f98a149b90aa2",
+  "prompts": {},
+  "sessions": {
+    "s_446f9b3d4bdfe9": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "47b05882-7fd1-4773-a315-4d4f1c641c01",
+        "model": "unknown"
+      },
+      "human_author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
